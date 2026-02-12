@@ -1,0 +1,7 @@
+{
+  "name": "The Glass Mirror Button",
+  "description": "A sophisticated React button with a glassmorphic mirror effect using the device's webcam as its reflection.",
+  "requestFramePermissions": [
+    "camera"
+  ]
+}
