@@ -268,43 +268,62 @@ const MirrorButton: React.FC<Props> = ({ externalTrigger, onAuraDetected }) => {
           relative w-72 h-16 md:w-96 md:h-20 
           rounded-full overflow-hidden
           transition-transform duration-[60ms] linear
-          border-t-[1.5px] border-l-[1.5px] border-white/70
-          border-r-[0.5px] border-b-[0.5px] border-slate-400/10
-          bg-white/10 shadow-[0_25px_60px_-15px_rgba(0,0,0,0.15),0_0_0_1px_rgba(255,255,255,0.1),inset_0_1px_1px_rgba(255,255,255,0.8),inset_0_-1px_1px_rgba(0,0,0,0.1)]
+          border-t-[1.5px] border-l-[1.5px] border-white/80
+          border-r-[0.5px] border-b-[0.5px] border-slate-400/20
+          bg-white/15 
+          shadow-[0_25px_60px_-15px_rgba(0,0,0,0.2),0_0_0_0.5px_rgba(255,255,255,0.3),0_0_0_1px_rgba(0,0,0,0.04),inset_0_2px_3px_rgba(255,255,255,0.9),inset_0_-2px_3px_rgba(0,0,0,0.12),inset_0_0_20px_rgba(255,255,255,0.15)]
           focus:outline-none backdrop-blur-3xl
         `}
       >
         <div className="absolute inset-0 transition-colors duration-1000 z-0" style={{ backgroundColor: auraColor }} />
         
+        {/* Frosted glass base tint */}
+        <div className="absolute inset-0 z-[1] bg-gradient-to-b from-white/30 via-white/5 to-black/10 pointer-events-none" />
+
         {/* Reflection Media - Zoom dampened for subtlety */}
-        <div className={`absolute inset-0 transition-opacity duration-1000 z-10 ${hasPermission ? 'opacity-90' : 'opacity-0'}`}>
+        <div className={`absolute inset-0 transition-opacity duration-1000 z-10 ${hasPermission ? 'opacity-80' : 'opacity-0'}`}>
           <video
             ref={videoRef}
             autoPlay playsInline muted
             className="absolute inset-0 w-full h-full object-cover"
             style={{ 
-              filter: `brightness(1.05) contrast(1.05) blur(${isPressed ? '12px' : '2px'})`,
+              filter: `brightness(1.08) contrast(1.08) saturate(0.9) blur(${isPressed ? '12px' : '1.5px'})`,
               transform: `scaleX(-1) scale(${1.05 * proximity})`,
               transition: 'filter 0.3s ease-out'
             }}
           />
         </div>
 
-        {/* Optical Glass Depth Layer */}
+        {/* Optical Glass Depth Layer - stronger refractive edges */}
         <div className="absolute inset-0 z-20 pointer-events-none" style={{ transform: 'translateZ(10px)' }}>
-          <div className="absolute inset-0 rounded-full shadow-[inset_0_15px_30px_-5px_rgba(255,255,255,0.7),inset_0_-10px_20px_rgba(0,0,0,0.1)]" />
+          <div className="absolute inset-0 rounded-full shadow-[inset_0_20px_40px_-8px_rgba(255,255,255,0.8),inset_0_-12px_25px_-5px_rgba(0,0,0,0.15),inset_8px_0_20px_-10px_rgba(255,255,255,0.3),inset_-8px_0_20px_-10px_rgba(0,0,0,0.08)]" />
         </div>
 
-        {/* Specular Highlights - Movement range significantly reduced */}
+        {/* Secondary glass refraction - caustic-style edge glow */}
+        <div className="absolute inset-0 z-[21] pointer-events-none rounded-full" 
+          style={{ 
+            background: 'radial-gradient(ellipse 120% 80% at 50% 0%, rgba(255,255,255,0.35) 0%, transparent 60%), radial-gradient(ellipse 100% 60% at 50% 100%, rgba(0,0,0,0.08) 0%, transparent 50%)'
+          }} 
+        />
+
+        {/* Specular Highlights - tighter, brighter */}
         <div className="absolute inset-0 z-30 pointer-events-none" style={{ transform: 'translateZ(20px)' }}>
           <div 
-            className="absolute -inset-[200%] rotate-[15deg] transition-transform duration-0"
+            className="absolute -inset-[200%] rotate-[15deg]"
             style={{ 
               transform: `translateX(${-rotation.y * 2}%) translateY(${-rotation.x * 1.5}%)`,
-              background: 'linear-gradient(115deg, transparent 0%, rgba(255,255,255,0) 42%, rgba(255,255,255,0.4) 50%, rgba(255,255,255,0) 58%, transparent 100%)'
+              background: 'linear-gradient(115deg, transparent 0%, rgba(255,255,255,0) 40%, rgba(255,255,255,0.55) 49%, rgba(255,255,255,0.6) 50%, rgba(255,255,255,0.55) 51%, rgba(255,255,255,0) 60%, transparent 100%)'
             }} 
           />
-          <div className="absolute inset-0 rounded-full border-[1.2px] border-white/20 mix-blend-overlay" />
+          {/* Secondary wider, softer specular */}
+          <div 
+            className="absolute -inset-[200%] rotate-[15deg]"
+            style={{ 
+              transform: `translateX(${-rotation.y * 1.2}%) translateY(${-rotation.x * 0.8}%)`,
+              background: 'linear-gradient(115deg, transparent 0%, rgba(255,255,255,0) 35%, rgba(255,255,255,0.12) 48%, rgba(255,255,255,0.15) 50%, rgba(255,255,255,0.12) 52%, rgba(255,255,255,0) 65%, transparent 100%)'
+            }} 
+          />
+          <div className="absolute inset-0 rounded-full border-[1.5px] border-white/25 mix-blend-overlay" />
         </div>
 
         <div className="relative z-40 flex items-center justify-center w-full h-full" style={{ transform: 'translateZ(40px)' }}>
