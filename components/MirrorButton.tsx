@@ -55,7 +55,7 @@ const MirrorButton: React.FC<Props> = ({ externalTrigger, onAuraDetected }) => {
       faceLandmarker.current = await FaceLandmarker.createFromOptions(filesetResolver, {
         baseOptions: {
           modelAssetPath: `https://storage.googleapis.com/mediapipe-models/face_landmarker/face_landmarker/float16/1/face_landmarker.task`,
-          delegate: "GPU"
+          delegate: "CPU"
         },
         outputFaceBlendshapes: true,
         runningMode: "VIDEO",
@@ -308,11 +308,16 @@ const MirrorButton: React.FC<Props> = ({ externalTrigger, onAuraDetected }) => {
 
         <div className="relative z-40 flex items-center justify-center w-full h-full" style={{ transform: 'translateZ(40px)' }}>
             <span className={`
-                text-slate-900 tracking-[0.9em] uppercase text-[11px]
+                tracking-[0.9em] uppercase text-[11px]
                 transition-all duration-300
-                drop-shadow-[0_1px_1px_rgba(255,255,255,0.8)]
-                ${isPressed ? 'font-black scale-[0.9] opacity-100' : 'font-bold scale-100 opacity-70'}
-            `}>
+                ${isPressed ? 'font-black scale-[0.9] text-white' : 'font-bold scale-100 text-slate-900/80'}
+            `}
+            style={{
+                textShadow: isPressed 
+                    ? '0 -1px 1px rgba(0,0,0,0.3), 0 1px 1px rgba(255,255,255,0.3)' 
+                    : '0 1px 1px rgba(255,255,255,0.8), 0 -1px 1px rgba(0,0,0,0.15)',
+                filter: isPressed ? 'brightness(1.2)' : 'none'
+            }}>
                 {isModelLoading ? 'Booting...' : isAnalyzing ? 'Scanning...' : hasPermission ? 'Reflect' : 'Connect'}
             </span>
         </div>
