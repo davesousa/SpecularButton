@@ -2,4 +2,4 @@
 
 Don't use this button. It was an experiment.
 
-People appear to overcomplicate this, saying it was impossible. So I vibe coded it in 20 minutes.
+People appear to overcomplicate this, saying it was impossible. So I vibe coded it in 20 minutes using Gemini AI Playground.
