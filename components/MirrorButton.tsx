@@ -260,28 +260,44 @@ const MirrorButton: React.FC<Props> = ({ externalTrigger, onAuraDetected }) => {
         onMouseUp={() => setIsPressed(false)}
         onMouseLeave={() => setIsPressed(false)}
         onClick={() => hasPermission === false && setupCamera()}
-        style={{
-          transform: `rotateX(${rotation.x}deg) rotateY(${rotation.y}deg) rotateZ(${rotation.z}deg) scale(${proximity}) ${isPressed ? 'translateZ(-10px)' : 'translateZ(30px)'}`,
-          transformStyle: 'preserve-3d'
-        }}
         className={`
           relative w-72 h-16 md:w-96 md:h-20 
           rounded-full overflow-hidden
           transition-transform duration-[60ms] linear
-          border-t-[1.5px] border-l-[1.5px] border-white/80
-          border-r-[0.5px] border-b-[0.5px] border-slate-400/20
-          bg-white/15 
-          shadow-[0_25px_60px_-15px_rgba(0,0,0,0.2),0_0_0_0.5px_rgba(255,255,255,0.3),0_0_0_1px_rgba(0,0,0,0.04),inset_0_2px_3px_rgba(255,255,255,0.9),inset_0_-2px_3px_rgba(0,0,0,0.12),inset_0_0_20px_rgba(255,255,255,0.15)]
-          focus:outline-none backdrop-blur-3xl
+          focus:outline-none
         `}
+        style={{
+          transform: `rotateX(${rotation.x}deg) rotateY(${rotation.y}deg) rotateZ(${rotation.z}deg) scale(${proximity}) ${isPressed ? 'translateZ(-10px)' : 'translateZ(30px)'}`,
+          transformStyle: 'preserve-3d' as const,
+          background: 'rgba(255, 255, 255, 0.33)',
+          backdropFilter: 'blur(16px)',
+          WebkitBackdropFilter: 'blur(16px)',
+          border: '1px solid rgba(255, 255, 255, 0.3)',
+          boxShadow: `
+            0 8px 32px rgba(0, 0, 0, 0.1),
+            inset 0 1px 0 rgba(255, 255, 255, 0.5),
+            inset 0 -1px 0 rgba(255, 255, 255, 0.1),
+            inset 0 0 60px 30px rgba(255, 255, 255, 0.03)
+          `,
+        }}
       >
         <div className="absolute inset-0 transition-colors duration-1000 z-0" style={{ backgroundColor: auraColor }} />
+
+        {/* Top edge highlight — ::before equivalent */}
+        <div className="absolute top-0 left-0 right-0 h-px z-[35] pointer-events-none"
+          style={{ background: 'linear-gradient(90deg, transparent, rgba(255,255,255,0.8), transparent)' }}
+        />
+
+        {/* Left edge highlight — ::after equivalent */}
+        <div className="absolute top-0 left-0 w-px h-full z-[35] pointer-events-none"
+          style={{ background: 'linear-gradient(180deg, rgba(255,255,255,0.8), transparent, rgba(255,255,255,0.3))' }}
+        />
         
         {/* Frosted glass base tint */}
         <div className="absolute inset-0 z-[1] bg-gradient-to-b from-white/30 via-white/5 to-black/10 pointer-events-none" />
 
-        {/* Reflection Media - Zoom dampened for subtlety */}
-        <div className={`absolute inset-0 transition-opacity duration-1000 z-10 ${hasPermission ? 'opacity-80' : 'opacity-0'}`}>
+        {/* Reflection Media */}
+        <div className={`absolute inset-0 transition-opacity duration-1000 z-10 ${hasPermission ? 'opacity-75' : 'opacity-0'}`}>
           <video
             ref={videoRef}
             autoPlay playsInline muted
@@ -294,19 +310,22 @@ const MirrorButton: React.FC<Props> = ({ externalTrigger, onAuraDetected }) => {
           />
         </div>
 
-        {/* Optical Glass Depth Layer - stronger refractive edges */}
+        {/* Optical Glass Depth Layer */}
         <div className="absolute inset-0 z-20 pointer-events-none" style={{ transform: 'translateZ(10px)' }}>
-          <div className="absolute inset-0 rounded-full shadow-[inset_0_20px_40px_-8px_rgba(255,255,255,0.8),inset_0_-12px_25px_-5px_rgba(0,0,0,0.15),inset_8px_0_20px_-10px_rgba(255,255,255,0.3),inset_-8px_0_20px_-10px_rgba(0,0,0,0.08)]" />
+          <div className="absolute inset-0 rounded-full" 
+            style={{ boxShadow: 'inset 0 20px 40px -8px rgba(255,255,255,0.8), inset 0 -12px 25px -5px rgba(0,0,0,0.15), inset 8px 0 20px -10px rgba(255,255,255,0.3), inset -8px 0 20px -10px rgba(0,0,0,0.08)' }}
+          />
         </div>
 
-        {/* Secondary glass refraction - caustic-style edge glow */}
-        <div className="absolute inset-0 z-[21] pointer-events-none rounded-full" 
-          style={{ 
+        {/* Inner glow from the glassmorphism generator */}
+        <div className="absolute inset-0 z-[21] pointer-events-none rounded-full"
+          style={{
+            boxShadow: 'inset 0 0 60px 30px rgba(255, 255, 255, 0.03)',
             background: 'radial-gradient(ellipse 120% 80% at 50% 0%, rgba(255,255,255,0.35) 0%, transparent 60%), radial-gradient(ellipse 100% 60% at 50% 100%, rgba(0,0,0,0.08) 0%, transparent 50%)'
-          }} 
+          }}
         />
 
-        {/* Specular Highlights - tighter, brighter */}
+        {/* Specular Highlights */}
         <div className="absolute inset-0 z-30 pointer-events-none" style={{ transform: 'translateZ(20px)' }}>
           <div 
             className="absolute -inset-[200%] rotate-[15deg]"
