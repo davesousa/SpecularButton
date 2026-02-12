@@ -270,7 +270,7 @@ const MirrorButton: React.FC<Props> = ({ externalTrigger, onAuraDetected }) => {
           transition-transform duration-[60ms] linear
           border-t-[1.5px] border-l-[1.5px] border-white/70
           border-r-[0.5px] border-b-[0.5px] border-slate-400/10
-          bg-white/10 shadow-[0_25px_60px_-15px_rgba(0,0,0,0.15)]
+          bg-white/10 shadow-[0_25px_60px_-15px_rgba(0,0,0,0.15),0_0_0_1px_rgba(255,255,255,0.1),inset_0_1px_1px_rgba(255,255,255,0.8),inset_0_-1px_1px_rgba(0,0,0,0.1)]
           focus:outline-none backdrop-blur-3xl
         `}
       >
@@ -284,7 +284,8 @@ const MirrorButton: React.FC<Props> = ({ externalTrigger, onAuraDetected }) => {
             className="absolute inset-0 w-full h-full object-cover"
             style={{ 
               filter: `brightness(1.05) contrast(1.05) blur(${isPressed ? '12px' : '2px'})`,
-              transform: `scaleX(-1) scale(${1.05 * proximity})`
+              transform: `scaleX(-1) scale(${1.05 * proximity})`,
+              transition: 'filter 0.3s ease-out'
             }}
           />
         </div>
