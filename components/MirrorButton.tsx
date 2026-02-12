@@ -188,8 +188,8 @@ const MirrorButton: React.FC<Props> = ({ externalTrigger, onAuraDetected }) => {
         setRotation({ ...currentRotation.current });
         setProximity(currentProximity.current);
         setTranslation({ 
-          x: currentRotation.current.y * 0.8, 
-          y: -currentRotation.current.x * 0.8 
+          x: currentRotation.current.y * 1.5, 
+          y: -currentRotation.current.x * 1.5 
         });
       }
       animationFrameId = requestAnimationFrame(predict);
