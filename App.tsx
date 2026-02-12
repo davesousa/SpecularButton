@@ -14,11 +14,11 @@ const App: React.FC = () => {
       {/* Syncing Background Orbs to AI Aura */}
       <div className="absolute inset-0 z-0 pointer-events-none overflow-hidden transition-colors duration-1000">
         <div 
-          className="absolute top-[10%] left-[15%] w-[50vw] h-[50vw] blur-[150px] rounded-full animate-pulse transition-colors duration-1000" 
+          className="absolute top-[10%] left-[15%] w-[50vw] h-[50vw] blur-[150px] rounded-full transition-colors duration-1000" 
           style={{ backgroundColor: `${aura.color}22` }}
         />
         <div 
-          className="absolute bottom-[20%] right-[10%] w-[45vw] h-[45vw] blur-[120px] rounded-full animate-bounce [animation-duration:10s] transition-colors duration-1000" 
+          className="absolute bottom-[20%] right-[10%] w-[45vw] h-[45vw] blur-[120px] rounded-full transition-colors duration-1000" 
           style={{ backgroundColor: `${aura.color}11` }}
         />
       </div>
